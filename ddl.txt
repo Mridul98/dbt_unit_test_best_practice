@@ -1,0 +1,106 @@
+CREATE TABLE device_data (
+    id SERIAL PRIMARY KEY,
+    device_name VARCHAR(255) NOT NULL,
+    data JSONB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE device_info (
+    id SERIAL PRIMARY KEY,
+    device_name VARCHAR(255) NOT NULL,
+    info JSONB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO device_data (device_name, data) VALUES 
+('Device1', '{
+    "temperature": 22.5, 
+    "humidity": 45, 
+    "status": "active",
+    "location": {"latitude": 37.7749, "longitude": -122.4194},
+    "sensors": [{"type": "temperature", "value": 22.5}, {"type": "humidity", "value": 45}]
+}'),
+('Device2', '{
+    "temperature": 19.0, 
+    "humidity": 50, 
+    "status": "inactive",
+    "location": {"latitude": 34.0522, "longitude": -118.2437},
+    "sensors": [{"type": "temperature", "value": 19.0}, {"type": "humidity", "value": 50}]
+}'),
+('Device3', '{
+    "temperature": 25.0, 
+    "humidity": 40, 
+    "status": "active",
+    "location": {"latitude": 40.7128, "longitude": -74.0060},
+    "sensors": [{"type": "temperature", "value": 25.0}, {"type": "humidity", "value": 40}]
+}'),
+('Device4', '{
+    "temperature": 18.5, 
+    "humidity": 55, 
+    "status": "maintenance",
+    "location": {"latitude": 51.5074, "longitude": -0.1278},
+    "sensors": [{"type": "temperature", "value": 18.5}, {"type": "humidity", "value": 55}]
+}'),
+('Device5', '{
+    "temperature": 21.0, 
+    "humidity": 47, 
+    "status": "active",
+    "location": {"latitude": 48.8566, "longitude": 2.3522},
+    "sensors": [{"type": "temperature", "value": 21.0}, {"type": "humidity", "value": 47}]
+}');
+
+
+INSERT INTO device_info (device_name, info) VALUES 
+('Device1', '{
+    "manufacturer": "Acme Corp",
+    "model": "X1000",
+    "firmware_version": "1.2.3",
+    "ip_address": "192.168.1.1",
+    "location": {"latitude": 37.7749, "longitude": -122.4194},
+    "sensors": [
+        {"type": "temperature", "unit": "Celsius", "range": [-40, 125]},
+        {"type": "humidity", "unit": "%", "range": [0, 100]}
+    ]
+}'),
+('Device2', '{
+    "manufacturer": "Beta Inc",
+    "model": "Y2000",
+    "firmware_version": "2.1.0",
+    "ip_address": "192.168.1.2",
+    "location": {"latitude": 34.0522, "longitude": -118.2437},
+    "sensors": [
+        {"type": "temperature", "unit": "Celsius", "range": [-20, 100]},
+        {"type": "humidity", "unit": "%", "range": [10, 90]}
+    ]
+}'),
+('Device3', '{
+    "manufacturer": "Gamma Ltd",
+    "model": "Z3000",
+    "firmware_version": "3.0.1",
+    "ip_address": "192.168.1.3",
+    "location": {"latitude": 40.7128, "longitude": -74.0060},
+    "sensors": [
+        {"type": "temperature", "unit": "Celsius", "range": [-50, 150]},
+        {"type": "humidity", "unit": "%", "range": [0, 100]}
+    ]
+}'),
+('Device4', '{
+    "manufacturer": "Delta Devices",
+    "model": "A4000",
+    "firmware_version": "4.2.0",
+    "ip_address": "192.168.1.4",
+    "location": {"latitude": 51.5074, "longitude": -0.1278},
+    "sensors": [
+        {"type": "temperature", "unit": "Celsius", "range": [-30, 120]},
+        {"type": "humidity", "unit": "%", "range": [5, 95]}
+    ]
+}'),
+('Device5', '{
+    "manufacturer": "Epsilon Electronics",
+    "model": "B5000",
+    "firmware_version": "5.1.3",
+    "ip_address": "192.168.1.5",
+    "location": {"latitude": 48.8566, "longitude": 2.3522},
+    "sensors": [
+        {"type": "temperature", "unit": "Celsius", "range": [-40, 100]},
+        {"type": "humidity", "unit": "%", "range": [0, 100]}
+    ]
+}');

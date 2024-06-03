@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: iot_data
+    database: dev  
+    schema: public  
+    tables:
+      - name: device_data
+      - name: device_info
