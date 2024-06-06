@@ -1,51 +1,55 @@
+
 CREATE TABLE device_data (
     id SERIAL PRIMARY KEY,
     device_name VARCHAR(255) NOT NULL,
     data JSONB NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE device_info (
     id SERIAL PRIMARY KEY,
     device_name VARCHAR(255) NOT NULL,
     info JSONB NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 INSERT INTO device_data (device_name, data) VALUES 
 ('Device1', '{
-    "temperature": 22.5, 
+    "temperature": 32.5, 
     "humidity": 45, 
     "status": "active",
     "location": {"latitude": 37.7749, "longitude": -122.4194},
-    "sensors": [{"type": "temperature", "value": 22.5}, {"type": "humidity", "value": 45}]
+    "sensors": [{"type": "temperature", "value": 32.5}, {"type": "humidity", "value": 45}]
 }'),
 ('Device2', '{
-    "temperature": 19.0, 
+    "temperature": 35.0, 
     "humidity": 50, 
     "status": "inactive",
     "location": {"latitude": 34.0522, "longitude": -118.2437},
-    "sensors": [{"type": "temperature", "value": 19.0}, {"type": "humidity", "value": 50}]
+    "sensors": [{"type": "temperature", "value": 35.0}, {"type": "humidity", "value": 50}]
 }'),
 ('Device3', '{
-    "temperature": 25.0, 
+    "temperature": 37.0, 
     "humidity": 40, 
     "status": "active",
     "location": {"latitude": 40.7128, "longitude": -74.0060},
-    "sensors": [{"type": "temperature", "value": 25.0}, {"type": "humidity", "value": 40}]
+    "sensors": [{"type": "temperature", "value": 37.0}, {"type": "humidity", "value": 40}]
 }'),
 ('Device4', '{
-    "temperature": 18.5, 
+    "temperature": 32.0, 
     "humidity": 55, 
     "status": "maintenance",
     "location": {"latitude": 51.5074, "longitude": -0.1278},
-    "sensors": [{"type": "temperature", "value": 18.5}, {"type": "humidity", "value": 55}]
+    "sensors": [{"type": "temperature", "value": 32.0}, {"type": "humidity", "value": 55}]
 }'),
 ('Device5', '{
-    "temperature": 21.0, 
+    "temperature": 33.0, 
     "humidity": 47, 
     "status": "active",
     "location": {"latitude": 48.8566, "longitude": 2.3522},
-    "sensors": [{"type": "temperature", "value": 21.0}, {"type": "humidity", "value": 47}]
+    "sensors": [{"type": "temperature", "value": 33.0}, {"type": "humidity", "value": 47}]
 }');
+
 CREATE TABLE heat_index_coefficients (
     id SERIAL PRIMARY KEY,
     coefficient_name VARCHAR(20),
@@ -73,7 +77,7 @@ INSERT INTO device_info (device_name, info) VALUES
     "ip_address": "192.168.1.1",
     "location": {"latitude": 37.7749, "longitude": -122.4194},
     "sensors": [
-        {"type": "temperature", "unit": "Celsius", "range": [-40, 125]},
+        {"type": "temperature", "unit": "Celsius", "range": [32, 125]},
         {"type": "humidity", "unit": "%", "range": [0, 100]}
     ]
 }'),
@@ -84,7 +88,7 @@ INSERT INTO device_info (device_name, info) VALUES
     "ip_address": "192.168.1.2",
     "location": {"latitude": 34.0522, "longitude": -118.2437},
     "sensors": [
-        {"type": "temperature", "unit": "Celsius", "range": [-20, 100]},
+        {"type": "temperature", "unit": "Celsius", "range": [0, 100]},
         {"type": "humidity", "unit": "%", "range": [10, 90]}
     ]
 }'),
