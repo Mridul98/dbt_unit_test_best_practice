@@ -7,3 +7,4 @@ sources:
     tables:
       - name: device_data
       - name: device_info
+      - name: heat_index_coefficients

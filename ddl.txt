@@ -46,7 +46,24 @@ INSERT INTO device_data (device_name, data) VALUES
     "location": {"latitude": 48.8566, "longitude": 2.3522},
     "sensors": [{"type": "temperature", "value": 21.0}, {"type": "humidity", "value": 47}]
 }');
+CREATE TABLE heat_index_coefficients (
+    id SERIAL PRIMARY KEY,
+    coefficient_name VARCHAR(20),
+    coefficient_value NUMERIC
+);
 
+-- Step 2: Insert the coefficients into the table
+INSERT INTO heat_index_coefficients (coefficient_name, coefficient_value)
+VALUES
+    ('c1', -42.379),
+    ('c2', 2.04901523),
+    ('c3', 10.14333127),
+    ('c4', -0.22475541),
+    ('c5', -0.00683783),
+    ('c6', -0.05481717),
+    ('c7', 0.00122874),
+    ('c8', 0.00085282),
+    ('c9', -0.00000199);
 
 INSERT INTO device_info (device_name, info) VALUES 
 ('Device1', '{

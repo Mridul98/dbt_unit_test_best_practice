@@ -1,0 +1,49 @@
+unit_tests:
+  - name: test_fahrenheit_to_heat_index_conversion
+    description: "This test is for checking whether the sql logic of converting temperature in fehrenheit into heat index in fehrenheit (how it feels like) is correct"
+    model: heat_index_results
+    given:
+      - input: ref('all_sensor_info')
+        format: sql
+        rows: | 
+          SELECT 
+            'test_device_1' AS device_name,
+            'test_manufacturer_1' AS manufacturer,
+            'test_model_1' AS model,
+            'test_fw_1' AS firmware_version,
+            'test_ip_1' AS ip_address,
+            12.0::NUMERIC AS latitude,
+            213.0::NUMERIC AS longitude,
+            52.0::NUMERIC AS temperature,
+            125.6::NUMERIC AS temperature_in_fahrenheit,
+            46::NUMERIC AS humidity
+      - input: ref('pivoted_heat_index_coefficients')
+        format: sql
+        rows: |
+          SELECT 
+            -42.379::NUMERIC AS c1,
+            2.04901523::NUMERIC AS c2,
+            10.14333127::NUMERIC AS c3,
+            -0.22475541::NUMERIC AS c4,
+            -0.00683783::NUMERIC AS c5,
+            -0.05481717::NUMERIC AS c6,
+            0.00122874::NUMERIC AS c7,
+            0.00085282::NUMERIC AS c8,
+            -0.00000199::NUMERIC AS c9
+    expect:
+      format: sql
+      rows: |
+        SELECT 
+          'test_device_1' AS device_name,
+          'test_manufacturer_1' AS manufacturer,
+          'test_model_1' AS model,
+          'test_fw_1' AS firmware_version,
+          'test_ip_1' AS ip_address,
+          12.0::NUMERIC AS latitude,
+          213.0::NUMERIC AS longitude,
+          52.0::NUMERIC AS temperature_in_celsius,
+          125.6::NUMERIC AS temperature_in_fahrenheit,
+          46::NUMERIC AS humidity,
+          211.0::NUMERIC AS feels_like_in_fahrenheit,
+          99.5::NUMERIC AS feels_like_in_celsius
+        
