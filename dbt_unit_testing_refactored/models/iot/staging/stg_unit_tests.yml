@@ -1,0 +1,58 @@
+unit_tests:
+  - name: test_device_info_transformation
+    description: "This test checks whether the JSON structured data is being correctly flattened into tabular format"
+    model: stg_device_info
+    given:
+      - input: source('iot_data','device_info')
+        format: sql
+        rows: | 
+          SELECT 
+          'test_device' AS device_name, 
+          '{
+              "manufacturer": "test",
+              "model": "test",
+              "firmware_version": "test",
+              "ip_address": "test",
+              "location": {"latitude": 3.2, "longitude": -11.3},
+              "sensors": [
+                  {"type": "temperature", "unit": "Celsius", "range": [32, 125]},
+                  {"type": "humidity", "unit": "%", "range": [0, 100]}
+              ]
+          }'::JSON AS info
+    expect:
+      format: sql
+      rows: |
+        SELECT 
+          'test_device' AS device_name,
+          'test' AS manufacturer,
+          'test' AS model,
+          'test' AS firmware_version,
+          'test' AS ip_address
+  
+  - name: test_device_data_transformation
+    description: "This test checks whether the JSON structured data is being correctly flattened into tabular format"
+    model: stg_device_data
+    given:
+      - input: source('iot_data','device_data')
+        format: sql
+        rows: | 
+          SELECT 
+          'test_device' as device_name,
+          '{
+              "temperature": 433.5, 
+              "humidity": 45521.1, 
+              "status": "test",
+              "location": {"latitude": 433.5, "longitude": 433.5},
+              "sensors": [{"type": "temperature", "value": 32.5}, {"type": "humidity", "value": 45}]
+          }'::JSON AS data
+    expect:
+      format: sql
+      rows: |
+        SELECT 
+          'test_device'          AS device_name,
+           433.5::FLOAT        AS temperature,
+           45521.1::FLOAT      AS humidity,
+           'test'              AS device_status,
+           433.5::FLOAT        AS latitude,
+           433.5::FLOAT        AS longitude
+        
