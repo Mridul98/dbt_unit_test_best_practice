@@ -1,0 +1,87 @@
+unit_tests:
+  - name: test_all_sensor_info_transformation
+    description: "This test checks whether all the sensor data and device related data are combined as expected"
+    model: int_all_sensor_info
+    given:
+      - input: ref('stg_device_data')
+        format: sql
+        rows: | 
+          SELECT 
+            'test_device' AS device_name, 
+            100.0::FLOAT  AS temperature,
+            47.3::FLOAT   AS humidity,
+            'test_active' AS device_status,
+            100.0::FLOAT  AS latitude,
+            -54.2::FLOAT  AS longitude
+      - input: ref('stg_device_info')
+        format: sql
+        rows: | 
+          SELECT 
+            'test_device'         AS device_name, 
+            'test_manufacturer'   AS manufacturer,
+            'test_model'          AS model,
+            'test_firmware'       AS firmware_version,
+             'test_ip'            AS ip_address
+    expect:
+      format: sql
+      rows: |
+        SELECT 
+          'test_device' AS device_name,
+          'test_manufacturer' AS manufacturer,
+          'test_model' AS model,
+          'test_firmware' AS firmware_version,
+          'test_ip' AS ip_address,
+          100.0::FLOAT AS latitude,
+          -54.2::FLOAT AS longitude,
+          100.0::FLOAT AS temperature,
+          212.0::FLOAT AS temperature_in_fahrenheit,
+          47.3::FLOAT  AS humidity
+  
+  - name: test_heat_index_calculation
+    description: "This unit test is related to validating heat index calculation"
+    model: int_heat_indexes
+    given:
+      - input: ref('int_all_sensor_info')
+        format: sql
+        rows: | 
+          SELECT 
+            'test_device' AS device_name,
+            'test_manufacturer' AS manufacturer,
+            'test_model' AS model,
+            'test_firmware' AS firmware_version,
+            'test_ip' AS ip_address,
+            100.0::FLOAT AS latitude,
+            -54.2::FLOAT AS longitude,
+            100.0::FLOAT AS temperature,
+            212.0::FLOAT AS temperature_in_fahrenheit,
+            47.3::FLOAT  AS humidity
+
+      - input: ref('stg_heat_index_coefficients')
+        format: sql
+        rows: | 
+          SELECT 
+            -42.379::NUMERIC AS c1,
+            2.04901523::NUMERIC AS c2,
+            10.14333127::NUMERIC AS c3,
+            -0.22475541::NUMERIC AS c4,
+            -0.00683783::NUMERIC AS c5,
+            -0.05481717::NUMERIC AS c6,
+            0.00122874::NUMERIC AS c7,
+            0.00085282::NUMERIC AS c8,
+            -0.00000199::NUMERIC AS c9
+    expect:
+      format: sql
+      rows: |
+        SELECT 
+          'test_device' AS device_name,
+          'test_manufacturer' AS manufacturer,
+          'test_model' AS model,
+          'test_firmware' AS firmware_version,
+          'test_ip' AS ip_address,
+          100.0::FLOAT AS latitude,
+          -54.2::FLOAT AS longitude,
+          100.0::FLOAT AS temperature_in_celsius,
+          212.0::FLOAT AS temperature_in_fahrenheit,
+          47.3::FLOAT  AS humidity,
+          1004.6::FLOAT AS feels_like_in_fahrenheit,
+          540.3::FLOAT AS feels_like_in_celsius

@@ -55,4 +55,52 @@ unit_tests:
            'test'              AS device_status,
            433.5::FLOAT        AS latitude,
            433.5::FLOAT        AS longitude
+  
+  - name: test_heat_index_coefficient_pivot
+    description: "This test checks whether this model correctly pivots heat_index_coefficients table from long format to wide format "
+    model: stg_heat_index_coefficients
+    given:
+      - input: source('iot_data','heat_index_coefficients')
+        format: sql
+        rows: | 
+          SELECT 
+            'c1' AS coefficient_name , -42.379::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c2' AS coefficient_name, 2.04901523::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c3' AS coefficient_name, 10.14333127::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c4' AS coefficient_name, -0.22475541::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c5' AS coefficient_name, -0.00683783::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c6' AS coefficient_name, -0.05481717::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c7', 0.00122874::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c8', 0.00085282::NUMERIC AS coefficient_value
+          UNION ALL
+          SELECT 
+              'c9', -0.00000199::NUMERIC AS coefficient_value
+    expect:
+      format: sql
+      rows: |
+        SELECT 
+          -42.379::NUMERIC AS c1,
+          2.04901523::NUMERIC AS c2,
+          10.14333127::NUMERIC AS c3,
+          -0.22475541::NUMERIC AS c4,
+          -0.00683783::NUMERIC AS c5,
+          -0.05481717::NUMERIC AS c6,
+          0.00122874::NUMERIC AS c7,
+          0.00085282::NUMERIC AS c8,
+          -0.00000199::NUMERIC AS c9 
+          
         
