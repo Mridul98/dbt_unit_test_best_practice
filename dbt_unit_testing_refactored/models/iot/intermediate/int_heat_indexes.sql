@@ -9,6 +9,6 @@ SELECT
     sensor_info.temperature_in_fahrenheit,
     humidity,
     {{ heat_index_in_fahrenheit(hi_coefficients_model='hi_coefficients',sensor_info_model='sensor_info') }} AS feels_like_in_fahrenheit,
-    ROUND((({{ heat_index_in_fahrenheit(hi_coefficients_model='hi_coefficients',sensor_info_model='sensor_info') }} - 32) * 5.0 / 9.0)::NUMERIC,1) AS feels_like_in_celsius
+    {{ convert_to_celcius(heat_index_in_fahrenheit= heat_index_in_fahrenheit(hi_coefficients_model='hi_coefficients',sensor_info_model='sensor_info')) }} AS feels_like_in_celsius
 FROM {{ ref('int_all_sensor_info') }} AS sensor_info,
 {{ ref('stg_heat_index_coefficients')}} as hi_coefficients
