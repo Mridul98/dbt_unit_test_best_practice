@@ -1,0 +1,37 @@
+unit_tests:
+  - name: test_heat_index_report
+    description: "This test checks whether this model correctly outputs the intended columns to be reported"
+    model: heat_index_report
+    given:
+      - input: ref('int_heat_indexes')
+        format: sql
+        rows: | 
+          SELECT 
+          'test_device' AS device_name,
+          'test_manufacturer' AS manufacturer,
+          'test_model' AS model,
+          'test_firmware' AS firmware_version,
+          'test_ip' AS ip_address,
+          100.0::FLOAT AS latitude,
+          -54.2::FLOAT AS longitude,
+          100.0::FLOAT AS temperature_in_celsius,
+          212.0::FLOAT AS temperature_in_fahrenheit,
+          47.3::FLOAT  AS humidity,
+          1004.6::FLOAT AS feels_like_in_fahrenheit,
+          540.3::FLOAT AS feels_like_in_celsius
+    expect:
+      format: sql
+      rows: |
+        SELECT 
+          'test_device' AS device_name,
+          'test_manufacturer' AS manufacturer,
+          'test_model' AS model,
+          'test_firmware' AS firmware_version,
+          'test_ip' AS ip_address,
+          100.0::FLOAT AS latitude,
+          -54.2::FLOAT AS longitude,
+          100.0::FLOAT AS temperature_in_celsius,
+          212.0::FLOAT AS temperature_in_fahrenheit,
+          47.3::FLOAT  AS humidity,
+          1004.6::FLOAT AS feels_like_in_fahrenheit,
+          540.3::FLOAT AS feels_like_in_celsius
