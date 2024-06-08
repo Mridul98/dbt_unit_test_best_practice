@@ -1,5 +1,5 @@
 # Test Driven Development in Data Engineering using DBT on Postgres
-## This repository contains all the related codebase for this article here: 
+## This repository contains all the related codebase for this article here: https://www.linkedin.com/pulse/test-driven-development-data-engineering-using-dbt-postgres-nabi-hfzbc
 
 
 ### Setup database and tables in docker desktop:
@@ -17,7 +17,7 @@
 
  ### Setup DBT project:
 
- #### There are actually two DBT project. One is under `./dbt_unit_testing` directory and the another one is under `./dbt_unit_testing_refactored`. The later one is the refactored version of the same project. Please read this article here: 
+ #### There are actually two DBT project. One is under `./dbt_unit_testing` directory and the another one is under `./dbt_unit_testing_refactored`. The later one is the refactored version of the same project. Please read this article here: https://www.linkedin.com/pulse/test-driven-development-data-engineering-using-dbt-postgres-nabi-hfzbc 
 
  1. First setup python virtual environment by running:  ``` python3 -m venv venv```
  2. Activate python virtual environment and update PIP if needed using this:  ```python3 -m pip install --upgrade pip```. 
